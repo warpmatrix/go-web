@@ -25,6 +25,12 @@ func NewServer() *negroni.Negroni {
 }
 
 func initRoutes(mx *mux.Router, formatter *render.Render) {
+	mx.HandleFunc("/api/unknown", notImplementedHandler()).Methods("GET")
+	mx.HandleFunc("/", homeHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/userInfo", postUserInfoHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/userInfo", getUserInfoHandler(formatter)).Methods("GET")
+
+	// setup file server
 	webRoot := os.Getenv("WEBROOT")
 	if len(webRoot) == 0 {
 		if root, err := os.Getwd(); err != nil {
@@ -33,8 +39,5 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 			webRoot = root
 		}
 	}
-
-	mx.HandleFunc("/api/unknown", notImplementedHandler()).Methods("GET")
-	mx.HandleFunc("/", homeHandler(formatter)).Methods("GET")
 	mx.PathPrefix("/").Handler(http.FileServer(http.Dir(webRoot + "/assets/")))
 }
