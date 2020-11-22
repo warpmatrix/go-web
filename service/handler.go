@@ -29,7 +29,10 @@ func postUserInfoHandler(formatter *render.Render) http.HandlerFunc {
 		}
 		newUser := parseUser(req.Form)
 		uList = append(uList, newUser)
-		formatter.HTML(w, http.StatusOK, "newUser", newUser)
+		formatter.HTML(w, http.StatusOK, "newUser", struct {
+			NewUser  user
+			UserList []user
+		}{NewUser: newUser, UserList: uList})
 	}
 }
 

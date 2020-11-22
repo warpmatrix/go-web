@@ -8,8 +8,29 @@
   <img src="images/cng.png" height="48" width="48" />
   Add a user data successful!!
   <div>
-    <p class="new-fname">The first name is {{.Fname}}</p>
-    <p class="new-lname">The last name is {{.Lname}}</p>
+    <p class="new-fname">The first name is {{.NewUser.Fname}}.</p>
+    <p class="new-lname">The last name is {{.NewUser.Lname}}.</p>
+  </div>
+
+  <div align="center">
+    <p>All user data are showed below:</p>
+    <table id="users-table">
+      <thead>
+        Users <br>
+        <tr>
+          <th>first name</th>
+          <th>last name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .UserList}}
+        <tr>
+          <td>{{.Fname}}</td>
+          <td>{{.Lname}}</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
   </div>
 </body>
 
