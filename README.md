@@ -46,7 +46,7 @@
 
     ![get-userInfo](images/userInfo.png)
 
-除此以外，项目还实现了 `notImplHandler` 等**其它特性**。
+除此以外，项目还实现了 `notImplHandler` 等**其它特性**。另附，[源代码分析博客](https://blog.csdn.net/weixin_44547842/article/details/109998699)。
 
 ### 1.1. 支持静态文件服务
 
