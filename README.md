@@ -15,6 +15,7 @@
   - [1.1. 支持静态文件服务](#11-支持静态文件服务)
   - [1.2. 支持简单 js 访问](#12-支持简单-js-访问)
   - [1.3. 提交表单并输出表格](#13-提交表单并输出表格)
+  - [1.4. `notImplHandler` 的实现](#14-notimplhandler-的实现)
 - [2. `curl` 测试](#2-curl-测试)
 - [3. `ab` 测试](#3-ab-测试)
 
@@ -45,7 +46,7 @@
 
     ![get-userInfo](images/userInfo.png)
 
-除此以外，项目还实现了 `notImplHandler` 等其他功能。
+除此以外，项目还实现了 `notImplHandler` 等**其它特性**。
 
 ### 1.1. 支持静态文件服务
 
@@ -143,6 +144,29 @@ func postUserInfoHandler(formatter *render.Render) http.HandlerFunc {
 ```
 
 整个 html 对应的模板，可以在 [newUser.html](templates/newUser.html) 中查看。
+
+### 1.4. `notImplHandler` 的实现
+
+由于开发进度不足，当访问特定 url 时，可能对应的处理方法尚未发布，此时可以使用 `notImplHandler` 进行占位。例如，下面的例子中，路由器增加了 `/api/unknown` 的路由信息体现实现的 `notImplHandler` 功能。
+
+```go
+mx.HandleFunc("/api/unknown", notImplementedHandler()).Methods("GET")
+```
+
+具体的实现代码如下：
+
+```go
+// notImplemented replies to the request with an HTTP 501 Not Implemented.
+func notImplemented(w http.ResponseWriter, r *http.Request) {
+    http.Error(w, "501 Not Implemented", http.StatusNotImplemented)
+}
+
+// notImplementedHandler returns a simple request handler
+// that replies to each request with a ``501 Not Implemented'' reply.
+func notImplementedHandler() http.HandlerFunc { return http.HandlerFunc(notImplemented) }
+```
+
+使用 `curl` 进行测试可以得到相应的效果图。具体的图片在[curl 测试](#2-curl-测试)中查看。
 
 ## 2. `curl` 测试
 
